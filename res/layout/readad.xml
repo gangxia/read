@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:baiduadsdk="http://schemas.android.com/apk/res/com.zhufuyisheng.read"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:id="@+id/boby"
+    android:background="#ffffff"
+ >
+    
+ 
+
+	<com.baidu.mobads.AdView android:id="@+id/adView"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:gravity="center_horizontal"
+		/>
+    
+   
+
+
+</LinearLayout>

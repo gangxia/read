@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout 
+   xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+  
+
+     <RelativeLayout
+          android:id="@+id/title"
+          android:layout_width="fill_parent"
+          android:layout_height="40dp"
+          android:layout_alignParentTop="true"
+          android:background="@drawable/bg_title_bar"
+          android:paddingTop="1dp" >
+
+        <TextView
+             android:id="@+id/name"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerHorizontal="true"
+             android:layout_centerVertical="true" 
+              android:text="书名"
+              android:textColor="#ffffff"
+             android:textSize="20sp" />
+  <Button
+            android:id="@+id/back"
+            android:layout_width="60dp"
+            android:layout_height="33dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/local_back_nomal"
+            android:clickable="true"
+            android:text="返回"
+            android:textSize="15sp"
+            android:textColor="#ffffff" />
+         
+       
+  </RelativeLayout> 
+
+       
+       <ImageView
+          android:layout_width="100dp"
+        android:layout_height="125dp"
+        android:src="@drawable/book"
+        android:scaleType="fitCenter"
+    
+        android:id="@+id/img"
+        android:layout_below="@id/title"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        />
+       
+         <TextView
+            
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/author"
+         android:text="作者：  abc"
+          android:ellipsize="end"
+            android:singleLine="true"
+         android:textColor="#000000"
+         android:textSize="16sp"
+          android:layout_marginTop="10dp"
+         android:layout_marginLeft="10dp" 
+         android:layout_below="@id/title"
+         android:layout_toRightOf="@id/img"
+         />
+           <TextView
+            
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/role"
+         android:text="主角：  xiaxia"
+         android:textColor="#000000"
+         android:textSize="16sp"
+          android:ellipsize="end"
+            android:singleLine="true"
+          android:layout_marginTop="2dp"
+         android:layout_marginLeft="10dp" 
+         android:layout_below="@id/author"
+         android:layout_toRightOf="@id/img"
+         />
+       
+         <TextView
+            
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/type"
+         android:text="类别 ：  玄幻魔法"
+              android:ellipsize="end"
+            android:singleLine="true"
+         android:textColor="#000000"
+         android:textSize="16sp"
+          android:layout_marginTop="2dp"
+         android:layout_marginLeft="10dp" 
+         android:layout_below="@id/role"
+         android:layout_toRightOf="@id/img"
+         />
+              <TextView         
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/size"
+         android:text="大小 ： 2.1M"
+              android:ellipsize="end"
+            android:singleLine="true"
+         android:textColor="#000000"
+         android:textSize="16sp"
+          android:layout_marginTop="2dp"
+         android:layout_marginLeft="10dp" 
+         android:layout_below="@id/type"
+         android:layout_toRightOf="@id/img"
+         />
+                <TextView
+            
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/tag1"
+         android:text="下载 ： 121"
+              android:ellipsize="end"
+            android:singleLine="true"
+         android:textColor="#000000"
+         android:textSize="16sp"
+          android:layout_marginTop="2dp"
+         android:layout_marginLeft="10dp" 
+         android:layout_below="@id/size"
+         android:layout_toRightOf="@id/img"
+         /> 
+         
+    
+            <TextView
+            
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/tag2"
+         android:text="好评 ： 121"
+              android:ellipsize="end"
+            android:singleLine="true"
+         android:textColor="#000000"
+         android:textSize="16sp"
+          android:layout_marginTop="2dp"
+         android:layout_marginLeft="10dp" 
+         android:layout_below="@id/tag1"
+         android:layout_toRightOf="@id/img"
+         />           
+     
+    <TextView
+            android:id="@+id/go"
+            style="@style/A3_Font"          
+       android:layout_width="wrap_content"
+        android:layout_height="50dp"        
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/top_button_right_selector"
+        android:gravity="center"
+        android:text="下载"               
+        android:textColor="#008FEE"
+        android:layout_alignParentBottom="true"
+           />
+    <ScrollView 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"    
+        android:scrollbars="vertical" 
+        android:fadingEdge="vertical"
+           android:layout_marginTop="20dp"
+         android:layout_marginLeft="10dp" 
+         android:layout_below="@id/tag2"  
+         android:layout_above="@id/go" 
+       >  
+        <LinearLayout
+             android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"    
+           android:orientation="vertical"
+       >
+         <TextView
+            
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/text"
+         android:text="　故事内容"
+         android:textColor="#000000"
+         android:textSize="16sp"
+
+         />    
+         </LinearLayout>  
+         </ScrollView>
+
+</RelativeLayout>

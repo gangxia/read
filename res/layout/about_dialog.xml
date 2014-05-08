@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="5dp"
+        android:text="      本软件适用于Android 2.2及以上固件的设备，本软件下载、安装完全免费。用户在使用的过程中所产生的移动业务的数据费用皆由移动通信运营商收取。建议用户选择WIFI网络使用祝福一生阅读器，以减少相关的上网数据费用。祝福一生阅读器为免费软件,在使用过程中除流量不会有其他费用,敬请放心!"
+        android:textSize="15sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="5dp"
+        android:text="      本软件所有作品均系网络转载，仅供书友免费预览！版权为原作者所有!版权人如果认为本站转载传播会侵犯您的权益，敬请来信告知，我们将立即删除！"
+        android:textSize="15sp" />
+     
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="      感谢支持！"
+        android:textSize="15sp" />
+     
+   
+      
+</LinearLayout>

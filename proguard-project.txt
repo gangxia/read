@@ -1,0 +1,90 @@
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+-dontwarn
+-dontskipnonpubliclibraryclassmembers
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-ignorewarnings
+
+-keep public class org.apache.commons.** {*;}
+-dontwarn class org.apache.commons.** {*;}
+
+-keep public class com.google.common.** {*;}
+-dontwarn class com.google.common.** {*;}
+
+-keep public class net.sqlcipher.** {*;}
+-dontwarn class net.sqlcipher.** {*;}
+
+-keep public class com.baidu.mobads.** {*;}
+-dontwarn class com.baidu.mobads.** {*;}
+
+-keep public class de.innosystec.unrar.** {*;}
+-dontwarn class de.innosystec.unrar.** {*;}
+
+-keep public class android.support.v4.** {*;}
+-dontwarn class android.support.v4.** {*;}
+
+-keep public class com.zhufufb.** {*;}
+-dontwarn class com.zhufufb.** {*;}
+
+-keep public class com.dlnetwork.** {*;}
+-dontwarn class com.dlnetwork.** {*;}
+
+-keep public class com.fx.a.** {*;}
+-dontwarn class com.fx.a.** {*;}
+
+-keep public class com.ose.a.** {*;}
+-dontwarn class com.ose.a.** {*;}
+
+-keep public class com.nostra13.** {*;}
+-dontwarn class com.nostra13.** {*;}
+
+-keep public class com.umeng.** {*;}
+-dontwarn class com.umeng.** {*;}
+
+-keep public class com.zhufuandroid.** {*;}
+-dontwarn class com.zhufuandroid.** {*;}
+
+-keep public class * extends android.widget.FrameLayout
+
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class com.android.vending.licensing.ILicensingService
+
+
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+-keepnames class com.AnywayAds.Mini$* {
+    public <fields>;
+    public <methods>;
+}
+
