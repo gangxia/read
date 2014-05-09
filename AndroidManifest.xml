@@ -88,6 +88,7 @@
     <application
         android:allowBackup="true"
         android:debuggable="false"
+        android:name="com.zhufuyisheng.util.CrashApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar" >

@@ -198,8 +198,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 				AppConnect.getInstance("df0f22eb26e885ace71fb94d092c5326",
 						"gp", MainActivity.this);
-				AppConnect.getInstance(MainActivity.this).initUninstallAd(
-						MainActivity.this);
+
 				AppConnect.getInstance(MainActivity.this).initPopAd(
 						MainActivity.this);
 				Message mes = handler.obtainMessage(1);
