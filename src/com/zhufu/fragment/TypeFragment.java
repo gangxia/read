@@ -1,4 +1,4 @@
-package com.zhufu.mobile.safety;
+package com.zhufu.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.zhufu.mobile.safety.R;
+import com.zhufu.mobile.safety.TypeList;
 
 public class TypeFragment extends Fragment {
 	TextView lab1, lab2, lab3, lab4, lab5, lab6, lab7, lab8, lab9, lab10;

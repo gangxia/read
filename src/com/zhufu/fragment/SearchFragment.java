@@ -1,4 +1,4 @@
-package com.zhufu.mobile.safety;
+package com.zhufu.fragment;
 
 import java.util.Random;
 
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.zhufu.mobile.safety.R;
+import com.zhufu.mobile.safety.SearchListActivity;
 import com.zhufuyisheng.util.KeywordsFlow;
 import com.zhufuyisheng.util.Mstring;
 

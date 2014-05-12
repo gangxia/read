@@ -1,4 +1,4 @@
-package com.zhufu.mobile.safety;
+package com.zhufu.fragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +29,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.zhufu.mobile.safety.BookActivity;
+import com.zhufu.mobile.safety.R;
 import com.zhufuyisheng.util.Mhttppost;
 import com.zhufuyisheng.util.Mstring;
 import com.zhufuyisheng.view.MyAdapter;
 
-public class HomeFragment extends Fragment {
+public class ReadFragment extends Fragment {
 	TextView label_1, label_2, label_3;
 	ListView list1, list2, list3;
 

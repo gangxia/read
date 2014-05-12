@@ -1,4 +1,4 @@
-package com.zhufu.mobile.safety;
+package com.zhufu.home;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import android.app.AlertDialog;
@@ -25,11 +25,11 @@ import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
-import com.zhufu.fragment.BooksFragment;
-import com.zhufu.fragment.HomeFragment;
-import com.zhufu.fragment.SearchFragment;
-import com.zhufu.fragment.SettingFragment;
-import com.zhufu.fragment.TypeFragment;
+import com.zhufu.fragment.ImgFragment;
+import com.zhufu.fragment.MoreFragment;
+import com.zhufu.fragment.ReadFragment;
+import com.zhufu.fragment.VideoFragment;
+import com.zhufu.mobile.safety.R;
 import com.zhufufb.FeedbackSDK;
 import com.zhufuyisheng.util.Mhelp;
 
@@ -38,33 +38,27 @@ import com.zhufuyisheng.util.Mhelp;
  * 
  * @author
  */
-public class MainActivity extends FragmentActivity implements OnClickListener {
+public class HomeActivity extends FragmentActivity implements OnClickListener {
 
-	private HomeFragment homeFragment;
-	private TypeFragment typeFragment;
-	private BooksFragment booksFragment;
-	private SearchFragment searchFragment;
-	private SettingFragment settingFragment;
-
-	/**
-	 * 主页界面布局
-	 */
-	private View homeLayout;
+	private VideoFragment videoFragment;
+	private ImgFragment imgFragment;
+	private ReadFragment readFragment;
+	private MoreFragment moreFragment;
 
 	/**
-	 * 类型界面布局
+	 * 电影界面布局
 	 */
-	private View typeLayout;
+	private View videoLayout;
 
 	/**
-	 * 搜索界面布局
+	 * 图片界面布局
 	 */
-	private View searchLayout;
+	private View imgLayout;
 
 	/**
-	 * 书籍界面布局
+	 * 小说界面布局
 	 */
-	private View booksLayout;
+	private View readLayout;
 
 	/**
 	 * 设置界面布局
@@ -74,13 +68,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	/**
 	 * 在Tab布局上显示消息标题的控件
 	 */
-	private TextView homeText;
+	private TextView videoText;
 
-	private TextView typeText;
+	private TextView imgText;
 
-	private TextView searchText;
-
-	private TextView booksText;
+	private TextView readText;
 
 	private TextView settingText;
 
@@ -102,15 +94,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		new Thread() {
 			public void run() {
 				Looper.prepare();
-				SQLiteDatabase.loadLibs(MainActivity.this);
+				SQLiteDatabase.loadLibs(HomeActivity.this);
 				// 初始化布局元素
 
 				fragmentManager = getSupportFragmentManager();
 				// 第一次启动时选中第0个tab
 
-				FeedbackAgent agent = new FeedbackAgent(MainActivity.this);
+				FeedbackAgent agent = new FeedbackAgent(HomeActivity.this);
 				agent.sync();
-				UmengUpdateAgent.update(MainActivity.this);
+				UmengUpdateAgent.update(HomeActivity.this);
 				UmengUpdateAgent.setUpdateOnlyWifi(false);
 
 				UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
@@ -120,7 +112,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 						switch (updateStatus) {
 						case 0: // has update
 							UmengUpdateAgent.showUpdateDialog(
-									MainActivity.this, updateInfo);
+									HomeActivity.this, updateInfo);
 							break;
 						case 1: // has no update
 
@@ -134,18 +126,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 						}
 					}
 				});
-				Dianle.initDianleContext(MainActivity.this,
+				Dianle.initDianleContext(HomeActivity.this,
 						"1ccdc355822e988f8f262d09cd6d5028", "gfan");
 
 				Dianle.setCustomActivity("com.dian.MyView");
 				Dianle.setCustomService("com.dian.MyService");
-				FeedbackSDK.init(MainActivity.this, "010M0P00");
+				FeedbackSDK.init(HomeActivity.this, "010M0P00");
 
 				AppConnect.getInstance("df0f22eb26e885ace71fb94d092c5326",
-						"gp", MainActivity.this);
+						"gp", HomeActivity.this);
 
-				AppConnect.getInstance(MainActivity.this).initPopAd(
-						MainActivity.this);
+				AppConnect.getInstance(HomeActivity.this).initPopAd(
+						HomeActivity.this);
 				Message mes = handler.obtainMessage(1);
 				handler.sendMessage(mes);
 				Looper.loop();
@@ -158,22 +150,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-				setContentView(R.layout.activity_main);
+				setContentView(R.layout.home);
 				initViews();
 				setTabSelection(0);
-				String first = Mhelp.GetSharedPreferences(MainActivity.this,
+				String first = Mhelp.GetSharedPreferences(HomeActivity.this,
 						"first", "first");
 				if ("no".equals(first)) {
 
 				} else {
 					AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-							MainActivity.this);
+							HomeActivity.this);
 					alertDialog
 							.setTitle("软件说明")
 							.setMessage(
 									"    本软件适用于Android 2.2及以上固件的设备，本软件下载、安装完全免费。用户在使用的过程中所产生的移动业务的数据费用皆由移动通信运营商收取。建议用户选择WIFI网络使用本软件，以减少相关的上网数据费用！\n      本软体内所有内容来源皆取自网络资源。本软件仅为大家更加便利的娱乐观赏.版权与著作权皆为原网站、原作者所有，绝无有内容侵权之意。其中内容若有不妥，或是侵犯了您的合法权益，请麻烦通知我们，我们将会迅速协助将侵权的部分移除，谢谢!\n  有问题可以反馈！ \n   谢谢支持")
 							.setNegativeButton("知道了", null).show();
-					Mhelp.SetSharedPreferences(MainActivity.this, "first",
+					Mhelp.SetSharedPreferences(HomeActivity.this, "first",
 							"first", "no");
 				}
 				break;
@@ -190,21 +182,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	 * 在这里获取到每个需要用到的控件的实例，并给它们设置好必要的点击事件。
 	 */
 	private void initViews() {
-		homeLayout = findViewById(R.id.home_layout);
-		typeLayout = findViewById(R.id.type_layout);
-		searchLayout = findViewById(R.id.search_layout);
-		booksLayout = findViewById(R.id.books_layout);
-		settingLayout = findViewById(R.id.setting_layout);
+		videoLayout = findViewById(R.id.video_layout);
+		imgLayout = findViewById(R.id.img_layout);
+		readLayout = findViewById(R.id.read_layout);
 
-		homeText = (TextView) findViewById(R.id.home_text);
-		typeText = (TextView) findViewById(R.id.type_text);
-		searchText = (TextView) findViewById(R.id.search_text);
-		booksText = (TextView) findViewById(R.id.books_text);
-		settingText = (TextView) findViewById(R.id.setting_text);
-		homeLayout.setOnClickListener(this);
-		typeLayout.setOnClickListener(this);
-		searchLayout.setOnClickListener(this);
-		booksLayout.setOnClickListener(this);
+		settingLayout = findViewById(R.id.set_layout);
+
+		videoText = (TextView) findViewById(R.id.video_text);
+		imgText = (TextView) findViewById(R.id.img_text);
+
+		settingText = (TextView) findViewById(R.id.set_text);
+		videoLayout.setOnClickListener(this);
+		imgLayout.setOnClickListener(this);
+		readLayout.setOnClickListener(this);
+
 		settingLayout.setOnClickListener(this);
 	}
 
@@ -254,68 +245,55 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		case 0:
 			// 当点击了消息tab时，改变控件的图片和文字颜色
 
-			homeText.setTextColor(Color.WHITE);
-			if (homeFragment == null) {
+			videoText.setTextColor(Color.WHITE);
+			if (videoFragment == null) {
 				// 如果MessageFragment为空，则创建一个并添加到界面上
-				homeFragment = new HomeFragment();
+				videoFragment = new VideoFragment();
 				// transaction.add(0, messageFragment);
-				transaction.add(R.id.content, homeFragment);
+				transaction.add(R.id.content, videoFragment);
 			} else {
 				// 如果MessageFragment不为空，则直接将它显示出来
-				transaction.show(homeFragment);
+				transaction.show(videoFragment);
 			}
 			break;
 		case 1:
 			// 当点击了联系人tab时，改变控件的图片和文字颜色
 
-			typeText.setTextColor(Color.WHITE);
-			if (typeFragment == null) {
+			imgText.setTextColor(Color.WHITE);
+			if (imgFragment == null) {
 				// 如果ContactsFragment为空，则创建一个并添加到界面上
-				typeFragment = new TypeFragment();
-				transaction.add(R.id.content, typeFragment);
+				imgFragment = new ImgFragment();
+				transaction.add(R.id.content, imgFragment);
 			} else {
 				// 如果ContactsFragment不为空，则直接将它显示出来
-				transaction.show(typeFragment);
+				transaction.show(imgFragment);
 			}
 			break;
 		case 2:
 			// 当点击了动态tab时，改变控件的图片和文字颜色
 
-			searchText.setTextColor(Color.WHITE);
-			if (searchFragment == null) {
+			readText.setTextColor(Color.WHITE);
+			if (readFragment == null) {
 				// 如果NewsFragment为空，则创建一个并添加到界面上
-				searchFragment = new SearchFragment();
-				transaction.add(R.id.content, searchFragment);
+				readFragment = new ReadFragment();
+				transaction.add(R.id.content, readFragment);
 			} else {
 				// 如果NewsFragment不为空，则直接将它显示出来
-				transaction.show(searchFragment);
+				transaction.show(readFragment);
 			}
 			break;
-		case 3:
-			// 当点击了动态tab时，改变控件的图片和文字颜色
 
-			booksText.setTextColor(Color.WHITE);
-			if (booksFragment == null) {
-				// 如果NewsFragment为空，则创建一个并添加到界面上
-				booksFragment = new BooksFragment();
-				transaction.add(R.id.content, booksFragment);
-			} else {
-				// 如果NewsFragment不为空，则直接将它显示出来
-				transaction.show(booksFragment);
-			}
-			break;
-		case 4:
-		default:
+		case 3:
 			// 当点击了设置tab时，改变控件的图片和文字颜色
 
 			settingText.setTextColor(Color.WHITE);
-			if (settingFragment == null) {
+			if (moreFragment == null) {
 				// 如果SettingFragment为空，则创建一个并添加到界面上
-				settingFragment = new SettingFragment();
-				transaction.add(R.id.content, settingFragment);
+				moreFragment = new MoreFragment();
+				transaction.add(R.id.content, moreFragment);
 			} else {
 				// 如果SettingFragment不为空，则直接将它显示出来
-				transaction.show(settingFragment);
+				transaction.show(moreFragment);
 			}
 			break;
 		}
@@ -327,12 +305,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	 */
 	private void clearSelection() {
 
-		homeText.setTextColor(Color.parseColor("#82858b"));
+		videoText.setTextColor(Color.parseColor("#82858b"));
 
-		typeText.setTextColor(Color.parseColor("#82858b"));
+		imgText.setTextColor(Color.parseColor("#82858b"));
 
-		searchText.setTextColor(Color.parseColor("#82858b"));
-		booksText.setTextColor(Color.parseColor("#82858b"));
+		readText.setTextColor(Color.parseColor("#82858b"));
 
 		settingText.setTextColor(Color.parseColor("#82858b"));
 	}
@@ -344,20 +321,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	 *            用于对Fragment执行操作的事务
 	 */
 	private void hideFragments(FragmentTransaction transaction) {
-		if (homeFragment != null) {
-			transaction.hide(homeFragment);
+		if (videoFragment != null) {
+			transaction.hide(videoFragment);
 		}
-		if (typeFragment != null) {
-			transaction.hide(typeFragment);
+		if (imgFragment != null) {
+			transaction.hide(imgFragment);
 		}
-		if (searchFragment != null) {
-			transaction.hide(searchFragment);
+		if (readFragment != null) {
+			transaction.hide(readFragment);
 		}
-		if (booksFragment != null) {
-			transaction.hide(booksFragment);
-		}
-		if (settingFragment != null) {
-			transaction.hide(settingFragment);
+
+		if (moreFragment != null) {
+			transaction.hide(moreFragment);
 		}
 	}
 

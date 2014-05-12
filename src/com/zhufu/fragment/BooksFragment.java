@@ -1,4 +1,4 @@
-package com.zhufu.mobile.safety;
+package com.zhufu.fragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +41,8 @@ import android.widget.Toast;
 import com.dlnetwork.Dianle;
 import com.dlnetwork.GetTotalMoneyListener;
 import com.dlnetwork.SpendMoneyListener;
+import com.zhufu.mobile.safety.R;
+import com.zhufu.mobile.safety.Read;
 import com.zhufuyisheng.util.CipherUtil;
 import com.zhufuyisheng.util.DBService;
 import com.zhufuyisheng.util.LocalBook;

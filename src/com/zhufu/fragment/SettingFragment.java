@@ -1,4 +1,4 @@
-package com.zhufu.mobile.safety;
+package com.zhufu.fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,6 +16,7 @@ import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
+import com.zhufu.mobile.safety.R;
 import com.zhufuyisheng.util.Mhelp;
 import com.zhufuyisheng.util.Mstring;
 
