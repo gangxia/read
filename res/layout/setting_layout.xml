@@ -3,99 +3,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical" >
 
-  <RelativeLayout
-          android:id="@+id/title"
-          android:layout_width="fill_parent"
-          android:layout_height="40dp"
-          android:layout_alignParentTop="true"
-          android:background="@drawable/bg_title_bar"
-          android:paddingTop="1dp" >
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_title_bar"
+        android:paddingTop="1dp" >
 
         <TextView
-             android:id="@+id/app_name"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_centerHorizontal="true"
-             android:layout_centerVertical="true" 
-              android:text="更多"
-              android:textColor="#ffffff"
-             android:textSize="20sp" />             
-  </RelativeLayout>  
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="更多"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
     <Button
-      android:layout_marginTop="5dp"
-        android:id="@+id/app" 
+        android:id="@+id/app"
         android:layout_width="fill_parent"
-        android:layout_height="45dp" 
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="热门应用"
-         android:textSize="18sp"
-         android:textColor="#008FEE"
-        />
-         <Button
-      android:layout_marginTop="1dp"
-        android:id="@+id/feedback" 
+        android:textColor="#008FEE"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/feedback"
         android:layout_width="fill_parent"
-        android:layout_height="45dp" 
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:text="应用反馈"
-         android:textSize="18sp"
-         android:textColor="#008FEE"
-        />
-   
-       <Button
-        android:layout_marginTop="1dp"
-        android:id="@+id/about" 
+        android:textColor="#008FEE"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/about"
         android:layout_width="fill_parent"
-        android:layout_height="45dp" 
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:text="软件说明"
-         android:textSize="18sp"
-         android:textColor="#008FEE"
-        />
-       <Button
-      android:layout_marginTop="1dp"
-        android:id="@+id/share" 
+        android:textColor="#008FEE"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/share"
         android:layout_width="fill_parent"
-        android:layout_height="45dp" 
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:text="分享"
-         android:textSize="18sp"
-         android:textColor="#008FEE"
-        />
-            <Button
-      android:layout_marginTop="1dp"
-        android:id="@+id/ver" 
+        android:textColor="#008FEE"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/ver"
         android:layout_width="fill_parent"
-        android:layout_height="45dp" 
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:text="版本更新检测"
-         android:textSize="18sp"
-         android:textColor="#008FEE"
-        />
-            
-                      <Button
-      android:layout_marginTop="1dp"
-        android:id="@+id/zhufu" 
+        android:textColor="#008FEE"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/zhufu"
         android:layout_width="fill_parent"
-        android:layout_height="65dp" 
+        android:layout_height="65dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:text="看小说不过瘾,想不想小说，图片，视频一起看？点我下载,1024,你懂的"
-         android:textSize="18sp"
-         android:textColor="#008FEE"
-        />
-         
-   <TextView
-             android:id="@+id/app_name"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-              android:text="祝福一生官网：http://www.zhufuyisheng.com"
-              android:textColor="#000000"
-             android:textSize="20sp"
-             android:visibility="gone"
-             android:autoLink="web" /> 
+        android:textColor="#008FEE"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:autoLink="web"
+        android:text="祝福一生官网：http://www.zhufuyisheng.com"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:visibility="gone" />
 
 </LinearLayout>

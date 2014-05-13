@@ -28,9 +28,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.zhufu.adapter.MyAdapter;
 import com.zhufuyisheng.util.Mhttppost;
 import com.zhufuyisheng.util.Mstring;
-import com.zhufuyisheng.view.MyAdapter;
 
 public class TypeList extends Activity {
 	TextView label_1, label_2, label_3;

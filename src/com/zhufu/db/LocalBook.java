@@ -1,4 +1,4 @@
-package com.zhufuyisheng.util;
+package com.zhufu.db;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;

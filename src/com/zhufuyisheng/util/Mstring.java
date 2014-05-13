@@ -121,4 +121,13 @@ public class Mstring {
 		return msg[index];
 	}
 
+	/**
+	 * 所有类型
+	 */
+	public static String type = "http://zhufuyisheng.com/phone/mjson/type.php";
+	/**
+	 * 小说
+	 */
+	public static String read = "http://zhufuyisheng.com/phone/mjson/read.php";
+
 }

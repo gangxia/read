@@ -43,7 +43,7 @@ import android.widget.Toast;
 import cn.waps.AppConnect;
 
 import com.umeng.analytics.MobclickAgent;
-import com.zhufuyisheng.util.MarkHelper;
+import com.zhufu.db.MarkHelper;
 import com.zhufuyisheng.util.MarkVo;
 import com.zhufuyisheng.util.Mhelp;
 import com.zhufuyisheng.util.Mstring;

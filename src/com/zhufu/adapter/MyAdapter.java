@@ -1,4 +1,4 @@
-package com.zhufuyisheng.view;
+package com.zhufu.adapter;
 
 import java.util.List;
 import java.util.Map;

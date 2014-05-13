@@ -1,14 +1,18 @@
 package com.zhufu.home;
 
-import net.sqlcipher.database.SQLiteDatabase;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,21 +21,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TextView;
-import cn.waps.AppConnect;
 
-import com.dlnetwork.Dianle;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.fb.FeedbackAgent;
-import com.umeng.update.UmengUpdateAgent;
-import com.umeng.update.UmengUpdateListener;
-import com.umeng.update.UpdateResponse;
+import com.zhufu.db.DBService;
 import com.zhufu.fragment.ImgFragment;
 import com.zhufu.fragment.MoreFragment;
 import com.zhufu.fragment.ReadFragment;
 import com.zhufu.fragment.VideoFragment;
 import com.zhufu.mobile.safety.R;
-import com.zhufufb.FeedbackSDK;
-import com.zhufuyisheng.util.Mhelp;
+import com.zhufuyisheng.util.Mhttppost;
+import com.zhufuyisheng.util.Mstring;
 
 /**
  * 项目的主Activity，所有的Fragment都嵌入在这里。
@@ -80,108 +79,31 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
 	 * 用于对Fragment进行管理
 	 */
 	private FragmentManager fragmentManager;
+	static DBService dbService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.logo);
+
+		setContentView(R.layout.home);
+		dbService = new DBService(this);
 		init();
 
 	}
 
 	public void init() {
-		new Thread() {
-			public void run() {
-				Looper.prepare();
-				SQLiteDatabase.loadLibs(HomeActivity.this);
-				// 初始化布局元素
+		initValue();
+		initViews();
+		setTabSelection(0);
 
-				fragmentManager = getSupportFragmentManager();
-				// 第一次启动时选中第0个tab
-
-				FeedbackAgent agent = new FeedbackAgent(HomeActivity.this);
-				agent.sync();
-				UmengUpdateAgent.update(HomeActivity.this);
-				UmengUpdateAgent.setUpdateOnlyWifi(false);
-
-				UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
-					@Override
-					public void onUpdateReturned(int updateStatus,
-							UpdateResponse updateInfo) {
-						switch (updateStatus) {
-						case 0: // has update
-							UmengUpdateAgent.showUpdateDialog(
-									HomeActivity.this, updateInfo);
-							break;
-						case 1: // has no update
-
-							break;
-						case 2: // none wifi
-
-							break;
-						case 3: // time out
-
-							break;
-						}
-					}
-				});
-				Dianle.initDianleContext(HomeActivity.this,
-						"1ccdc355822e988f8f262d09cd6d5028", "gfan");
-
-				Dianle.setCustomActivity("com.dian.MyView");
-				Dianle.setCustomService("com.dian.MyService");
-				FeedbackSDK.init(HomeActivity.this, "010M0P00");
-
-				AppConnect.getInstance("df0f22eb26e885ace71fb94d092c5326",
-						"gp", HomeActivity.this);
-
-				AppConnect.getInstance(HomeActivity.this).initPopAd(
-						HomeActivity.this);
-				Message mes = handler.obtainMessage(1);
-				handler.sendMessage(mes);
-				Looper.loop();
-			}
-		}.start();
 	}
-
-	public Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case 1:
-				setContentView(R.layout.home);
-				initViews();
-				setTabSelection(0);
-				String first = Mhelp.GetSharedPreferences(HomeActivity.this,
-						"first", "first");
-				if ("no".equals(first)) {
-
-				} else {
-					AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-							HomeActivity.this);
-					alertDialog
-							.setTitle("软件说明")
-							.setMessage(
-									"    本软件适用于Android 2.2及以上固件的设备，本软件下载、安装完全免费。用户在使用的过程中所产生的移动业务的数据费用皆由移动通信运营商收取。建议用户选择WIFI网络使用本软件，以减少相关的上网数据费用！\n      本软体内所有内容来源皆取自网络资源。本软件仅为大家更加便利的娱乐观赏.版权与著作权皆为原网站、原作者所有，绝无有内容侵权之意。其中内容若有不妥，或是侵犯了您的合法权益，请麻烦通知我们，我们将会迅速协助将侵权的部分移除，谢谢!\n  有问题可以反馈！ \n   谢谢支持")
-							.setNegativeButton("知道了", null).show();
-					Mhelp.SetSharedPreferences(HomeActivity.this, "first",
-							"first", "no");
-				}
-				break;
-
-			default:
-				break;
-			}
-
-			super.handleMessage(msg);
-		}
-	};
 
 	/**
 	 * 在这里获取到每个需要用到的控件的实例，并给它们设置好必要的点击事件。
 	 */
 	private void initViews() {
+		fragmentManager = getSupportFragmentManager();
 		videoLayout = findViewById(R.id.video_layout);
 		imgLayout = findViewById(R.id.img_layout);
 		readLayout = findViewById(R.id.read_layout);
@@ -190,7 +112,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
 
 		videoText = (TextView) findViewById(R.id.video_text);
 		imgText = (TextView) findViewById(R.id.img_text);
-
+		readText = (TextView) findViewById(R.id.read_text);
 		settingText = (TextView) findViewById(R.id.set_text);
 		videoLayout.setOnClickListener(this);
 		imgLayout.setOnClickListener(this);
@@ -202,26 +124,22 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.home_layout:
+		case R.id.video_layout:
 			// 当点击了消息tab时，选中第1个tab
 			setTabSelection(0);
 			break;
-		case R.id.type_layout:
+		case R.id.img_layout:
 			// 当点击了联系人tab时，选中第2个tab
 			setTabSelection(1);
 			break;
-		case R.id.search_layout:
+		case R.id.read_layout:
 			// 当点击了动态tab时，选中第3个tab
 			setTabSelection(2);
 			break;
 
-		case R.id.books_layout:
-			// 当点击了动态tab时，选中第3个tab
-			setTabSelection(3);
-			break;
-		case R.id.setting_layout:
+		case R.id.set_layout:
 			// 当点击了设置tab时，选中第4个tab
-			setTabSelection(4);
+			setTabSelection(3);
 			break;
 		default:
 			break;
@@ -373,6 +291,57 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
 	public void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+	}
+
+	public static void initValue() {
+		Map<String, Object> map;
+
+		try {
+			String sql = "select uid from type order by id desc limit 1 ";
+			String[] arg = new String[] {};
+			// if ("1".equals(tag)) {
+			//
+			// arg = new String[] { "1" };
+			// } else {
+			// arg = new String[] { "2" };
+			// }
+			Cursor cursor = dbService.query(sql, null);
+			cursor.moveToFirst();
+			String u;
+			if (cursor != null && cursor.getCount() > 0) {
+
+				u = cursor.getString(cursor.getColumnIndex("uid"));
+
+			} else {
+				u = "0";
+			}
+			cursor.close();
+			String callback = Mhttppost.post(Mstring.type, "love",
+					Mstring.decrypetkey(), "id", u);
+			JSONArray arrayJson = new JSONArray(callback); // 得到json数据开始字符
+
+			// json解析
+			for (int i = 0; i < arrayJson.length(); i++) {
+				JSONObject tempJson = arrayJson.optJSONObject(i);
+				map = new HashMap<String, Object>();
+				String uid = tempJson.getString("id");
+				String stat = tempJson.getString("stat");
+				String type = tempJson.getString("type");
+				String tid = tempJson.getString("tid");
+				String img = tempJson.getString("img");
+				String head = tempJson.getString("head");
+
+				String sql2 = "insert into type(uid,stat,type,tid,img,head) values(?,?,?,?,?,?)";
+				Object[] object = new Object[] { uid, stat, type, tid, img,
+						head };
+				dbService.execSQL(sql2, object);
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

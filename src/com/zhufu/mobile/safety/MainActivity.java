@@ -30,6 +30,7 @@ import com.zhufu.fragment.HomeFragment;
 import com.zhufu.fragment.SearchFragment;
 import com.zhufu.fragment.SettingFragment;
 import com.zhufu.fragment.TypeFragment;
+import com.zhufu.home.HomeActivity;
 import com.zhufufb.FeedbackSDK;
 import com.zhufuyisheng.util.Mhelp;
 
@@ -146,8 +147,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 				AppConnect.getInstance(MainActivity.this).initPopAd(
 						MainActivity.this);
-				Message mes = handler.obtainMessage(1);
-				handler.sendMessage(mes);
+				// Message mes = handler.obtainMessage(1);
+				// handler.sendMessage(mes);
+				Intent intent = new Intent(MainActivity.this,
+						HomeActivity.class);
+				startActivity(intent);
+				finish();
 				Looper.loop();
 			}
 		}.start();

@@ -1,4 +1,4 @@
-package com.zhufu.fragment;
+package com.zhufu.home;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,19 +9,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -29,22 +30,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.zhufu.adapter.MyAdapter;
+import com.zhufu.adapter.ItemAdapter;
+import com.zhufu.db.DBService;
 import com.zhufu.mobile.safety.BookActivity;
 import com.zhufu.mobile.safety.R;
 import com.zhufuyisheng.util.Mhttppost;
 import com.zhufuyisheng.util.Mstring;
 
-public class HomeFragment extends Fragment {
+public class TListActivity extends Activity {
 	TextView label_1, label_2, label_3;
 	ListView list1, list2, list3;
 
 	static List<Map<String, Object>> data;
 	static List<Map<String, Object>> data2;
 	static List<Map<String, Object>> data3;
-	MyAdapter adapter;
-	MyAdapter adapter2;
-	MyAdapter adapter3;
+	ItemAdapter adapter;
+	ItemAdapter adapter2;
+	ItemAdapter adapter3;
 	Context context;
 	TextView more;
 	LinearLayout loadProgressBar;
@@ -53,30 +55,31 @@ public class HomeFragment extends Fragment {
 	TextView more3;
 	LinearLayout loadProgressBar3;
 
-	static int pageNow = 1;
-	static int pageNow2 = 1;
-	static int pageNow3 = 1;
+	static int pageNow = 0;
+	static int pageNow2 = 0;
+	static int pageNow3 = 0;
 
 	static boolean isMore = true;
 	static boolean isMore2 = true;
 	static boolean isMore3 = true;
 	Dialog dialog;
+	static DBService dbService;
+	String tid = "1";
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View layout = inflater.inflate(R.layout.home_layout, container, false);
-		context = getActivity();
-		pageNow = 1;
-		pageNow2 = 1;
-		pageNow3 = 1;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		isMore = true;
-		isMore2 = true;
-		isMore3 = true;
+		setContentView(R.layout.home_layout);
+
+		context = this;
+		dbService = new DBService(this);
+		tid = getIntent().getExtras().getString("tid");
+
 		data = new ArrayList<Map<String, Object>>();
 		data2 = new ArrayList<Map<String, Object>>();
 		data3 = new ArrayList<Map<String, Object>>();
-		label_1 = (TextView) layout.findViewById(R.id.label_1);
+		label_1 = (TextView) findViewById(R.id.label_1);
 		label_1.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -85,7 +88,7 @@ public class HomeFragment extends Fragment {
 				label_click(1);
 			}
 		});
-		label_2 = (TextView) layout.findViewById(R.id.label_2);
+		label_2 = (TextView) findViewById(R.id.label_2);
 		label_2.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -94,7 +97,7 @@ public class HomeFragment extends Fragment {
 				label_click(2);
 			}
 		});
-		label_3 = (TextView) layout.findViewById(R.id.label_3);
+		label_3 = (TextView) findViewById(R.id.label_3);
 		label_3.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -103,9 +106,9 @@ public class HomeFragment extends Fragment {
 				label_click(3);
 			}
 		});
-		list1 = (ListView) layout.findViewById(R.id.lv_1);
-		list2 = (ListView) layout.findViewById(R.id.lv_2);
-		list3 = (ListView) layout.findViewById(R.id.lv_3);
+		list1 = (ListView) findViewById(R.id.lv_1);
+		list2 = (ListView) findViewById(R.id.lv_2);
+		list3 = (ListView) findViewById(R.id.lv_3);
 		initdata();
 
 		list1.setOnItemClickListener(new OnItemClickListener() {
@@ -180,7 +183,7 @@ public class HomeFragment extends Fragment {
 
 			}
 		});
-		return layout;
+
 	}
 
 	public void initdata() {
@@ -192,6 +195,7 @@ public class HomeFragment extends Fragment {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				init();
 				initValue();
 
 				initValue2();
@@ -202,6 +206,56 @@ public class HomeFragment extends Fragment {
 				handler.sendMessage(mes);
 			}
 		}.start();
+
+	}
+
+	public void init() {
+
+		Map<String, Object> map;
+
+		try {
+			String sql = "select * from read order by id desc limit 1 ";
+			String[] arg = new String[] {};
+			// if ("1".equals(tag)) {
+			//
+			// arg = new String[] { "1" };
+			// } else {
+			// arg = new String[] { "2" };
+			// }
+			Cursor cursor = dbService.query(sql, null);
+			cursor.moveToFirst();
+			String u;
+			if (cursor != null && cursor.getCount() > 0) {
+
+				u = cursor.getString(cursor.getColumnIndex("uid"));
+
+			} else {
+				u = "0";
+			}
+			cursor.close();
+			String callback = Mhttppost.post(Mstring.read, "love",
+					Mstring.decrypetkey(), "id", u, "tid", tid);
+			JSONArray arrayJson = new JSONArray(callback); // 得到json数据开始字符
+
+			// json解析
+			for (int i = 0; i < arrayJson.length(); i++) {
+				JSONObject tempJson = arrayJson.optJSONObject(i);
+				map = new HashMap<String, Object>();
+				String uid = tempJson.getString("id");
+				String name = tempJson.getString("name");
+				String date = tempJson.getString("date");
+				String tag1 = tempJson.getString("tag1");
+				String tag2 = tempJson.getString("tag2");
+
+				String sql2 = "insert into read(uid,name,date,tag1,tag2) values(?,?,?,?,?)";
+				Object[] object = new Object[] { uid, name, date, tag1, tag2 };
+				dbService.execSQL(sql2, object);
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -338,8 +392,6 @@ public class HomeFragment extends Fragment {
 			switch (msg.what) {
 			case 1:
 
-				adapter.count = data.size();
-
 				adapter.notifyDataSetChanged();
 				if (isMore == true) {
 
@@ -350,8 +402,6 @@ public class HomeFragment extends Fragment {
 				break;
 			case 2:
 
-				adapter2.count = data2.size();
-
 				adapter2.notifyDataSetChanged();
 				if (isMore2 == true) {
 
@@ -361,8 +411,6 @@ public class HomeFragment extends Fragment {
 				loadProgressBar2.setVisibility(View.GONE);
 				break;
 			case 3:
-
-				adapter3.count = data3.size();
 
 				adapter3.notifyDataSetChanged();
 				if (isMore3 == true) {
@@ -375,16 +423,16 @@ public class HomeFragment extends Fragment {
 			case 4:
 
 				addPageMore();
-				adapter = new MyAdapter(data, context);
+				adapter = new ItemAdapter(data, context);
 				list1.setAdapter(adapter);
 
 				addPageMore2();
 
-				adapter2 = new MyAdapter(data2, context);
+				adapter2 = new ItemAdapter(data2, context);
 				list2.setAdapter(adapter2);
 
 				addPageMore3();
-				adapter3 = new MyAdapter(data3, context);
+				adapter3 = new ItemAdapter(data3, context);
 				list3.setAdapter(adapter3);
 				dialog.cancel();
 				break;
@@ -398,37 +446,35 @@ public class HomeFragment extends Fragment {
 	};
 
 	public static void initValue() {
-		Map<String, Object> map;
 
 		try {
-			String callback = Mhttppost.post(Mstring.lab1, "love",
-					Mstring.decrypetkey(), "type", "1", "page", "" + pageNow);
-			JSONArray arrayJson = new JSONArray(callback); // 得到json数据开始字符
-			if (arrayJson.length() < 10) {
+			String sql = "select uid,name,tag1,tag2,date from read order by uid   desc limit ?, 20";
+			String[] arg = new String[] { "" + pageNow };
+			Cursor cursor = dbService.query(sql, arg);
+			cursor.moveToFirst();
+			if (cursor.getCount() < 10) {
 				isMore = false;
 			}
+			if (cursor != null && cursor.getCount() > 0) {
+				do {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("name",
+							cursor.getString(cursor.getColumnIndex("name")));
+					map.put("date",
+							cursor.getString(cursor.getColumnIndex("date")));
+					map.put("tag1",
+							cursor.getString(cursor.getColumnIndex("tag1")));
+					map.put("tag2",
+							cursor.getString(cursor.getColumnIndex("tag2")));
 
-			// json解析
-			for (int i = 0; i < arrayJson.length(); i++) {
-				JSONObject tempJson = arrayJson.optJSONObject(i);
-				map = new HashMap<String, Object>();
-				map.put("id", tempJson.getString("id"));
-				map.put("author", tempJson.getString("author"));
-				map.put("text", tempJson.getString("text"));
-				map.put("name", tempJson.getString("name"));
-				map.put("img", tempJson.getString("img"));
-				map.put("type", tempJson.getString("type"));
-				map.put("url", tempJson.getString("url"));
-				map.put("role", tempJson.getString("role"));
-				map.put("size", tempJson.getString("size"));
-				map.put("tag1", tempJson.getString("tag1"));
-				map.put("tag2", tempJson.getString("tag2"));
-				// ++page;
-				data.add(map);
+					data.add(map);
+					pageNow++;
+				} while (cursor.moveToNext());
+
 			}
-			pageNow++;
+			cursor.close();
 
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -436,36 +482,35 @@ public class HomeFragment extends Fragment {
 	}
 
 	public static void initValue2() {
-		Map<String, Object> map;
 
 		try {
-			String callback = Mhttppost.post(Mstring.lab1, "love",
-					Mstring.decrypetkey(), "type", "2", "page", "" + pageNow2);
-			JSONArray arrayJson = new JSONArray(callback); // 得到json数据开始字符
-			if (arrayJson.length() < 10) {
+			String sql = "select uid,name,tag1,tag2,date from read order by uid   desc limit ?, 20";
+			String[] arg = new String[] { "" + pageNow2 };
+			Cursor cursor = dbService.query(sql, arg);
+			cursor.moveToFirst();
+			if (cursor.getCount() < 10) {
 				isMore2 = false;
 			}
-			// json解析
-			for (int i = 0; i < arrayJson.length(); i++) {
-				JSONObject tempJson = arrayJson.optJSONObject(i);
-				map = new HashMap<String, Object>();
-				map.put("id", tempJson.getString("id"));
-				map.put("author", tempJson.getString("author"));
-				map.put("text", tempJson.getString("text"));
-				map.put("name", tempJson.getString("name"));
-				map.put("img", tempJson.getString("img"));
-				map.put("type", tempJson.getString("type"));
-				map.put("url", tempJson.getString("url"));
-				map.put("role", tempJson.getString("role"));
-				map.put("size", tempJson.getString("size"));
-				map.put("tag1", tempJson.getString("tag1"));
-				map.put("tag2", tempJson.getString("tag2"));
-				// ++page;
-				data2.add(map);
-			}
-			pageNow2++;
+			if (cursor != null && cursor.getCount() > 0) {
+				do {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("name",
+							cursor.getString(cursor.getColumnIndex("name")));
+					map.put("date",
+							cursor.getString(cursor.getColumnIndex("date")));
+					map.put("tag1",
+							cursor.getString(cursor.getColumnIndex("tag1")));
+					map.put("tag2",
+							cursor.getString(cursor.getColumnIndex("tag2")));
 
-		} catch (JSONException e) {
+					data2.add(map);
+					pageNow2++;
+				} while (cursor.moveToNext());
+
+			}
+			cursor.close();
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -473,36 +518,35 @@ public class HomeFragment extends Fragment {
 	}
 
 	public static void initValue3() {
-		Map<String, Object> map;
 
 		try {
-			String callback = Mhttppost.post(Mstring.lab1, "love",
-					Mstring.decrypetkey(), "type", "3", "page", "" + pageNow3);
-			JSONArray arrayJson = new JSONArray(callback); // 得到json数据开始字符
-			if (arrayJson.length() < 10) {
+			String sql = "select uid,name,tag1,tag2,date from read order by uid   desc limit ?, 20";
+			String[] arg = new String[] { "" + pageNow3 };
+			Cursor cursor = dbService.query(sql, arg);
+			cursor.moveToFirst();
+			if (cursor.getCount() < 10) {
 				isMore3 = false;
 			}
-			// json解析
-			for (int i = 0; i < arrayJson.length(); i++) {
-				JSONObject tempJson = arrayJson.optJSONObject(i);
-				map = new HashMap<String, Object>();
-				map.put("id", tempJson.getString("id"));
-				map.put("author", tempJson.getString("author"));
-				map.put("text", tempJson.getString("text"));
-				map.put("name", tempJson.getString("name"));
-				map.put("img", tempJson.getString("img"));
-				map.put("type", tempJson.getString("type"));
-				map.put("url", tempJson.getString("url"));
-				map.put("role", tempJson.getString("role"));
-				map.put("size", tempJson.getString("size"));
-				map.put("tag1", tempJson.getString("tag1"));
-				map.put("tag2", tempJson.getString("tag2"));
-				// ++page;
-				data3.add(map);
-			}
-			pageNow3++;
+			if (cursor != null && cursor.getCount() > 0) {
+				do {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("name",
+							cursor.getString(cursor.getColumnIndex("name")));
+					map.put("date",
+							cursor.getString(cursor.getColumnIndex("date")));
+					map.put("tag1",
+							cursor.getString(cursor.getColumnIndex("tag1")));
+					map.put("tag2",
+							cursor.getString(cursor.getColumnIndex("tag2")));
 
-		} catch (JSONException e) {
+					data3.add(map);
+					pageNow3++;
+				} while (cursor.moveToNext());
+
+			}
+			cursor.close();
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

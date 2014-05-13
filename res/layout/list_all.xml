@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    
+
+    <RelativeLayout
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" >
+
+     
+
+        <TextView
+            android:id="@+id/t3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/t2" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="280dp"
+            android:layout_height="30dp"
+           android:gravity="center"
+            
+            android:layout_marginTop="5dp"
+          
+            android:text="你在干嘛"
+            android:textColor="#272727"
+            android:textSize="20sp" />
+           <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/name"
+            android:text="2014-05-06"
+            android:textColor="#BEBEBE"
+            android:textSize="12sp" />
+             <TextView
+            android:id="@+id/tag1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/name"
+            android:text="赞:135"
+            android:textColor="#BEBEBE"
+            android:textSize="12sp" />
+                   <TextView
+            android:id="@+id/tag2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/name"
+            android:text="点击:16543"
+            android:textColor="#BEBEBE"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+  
+</LinearLayout>
